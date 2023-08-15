@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import coil.load
 import com.syntax_institut.syntaxkantine.MainViewModel
-import com.syntax_institut.syntaxkantine.databinding.HomeFragmentBinding
+import com.syntax_institut.syntaxkantine.adapter.MealsByCategoryAdapter
+import com.syntax_institut.syntaxkantine.databinding.MealsByCategoryFragmentBinding
 
-class HomeFragment: Fragment() {
+class MealsByCategoryFragment: Fragment() {
 
-    private lateinit var binding: HomeFragmentBinding
+    private lateinit var binding: MealsByCategoryFragmentBinding
     private val viewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -20,26 +20,16 @@ class HomeFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = HomeFragmentBinding.inflate(layoutInflater)
+        binding = MealsByCategoryFragmentBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btNext.setOnClickListener {
-            viewModel.getRandomMeal()
+        viewModel.mealsByCategory.observe(viewLifecycleOwner) { mealsByCat ->
+            binding.rvMealsByCat.adapter = MealsByCategoryAdapter(mealsByCat)
         }
-
-        viewModel.randomMeal.observe(viewLifecycleOwner) { meal ->
-            if (meal != null) {
-                binding.tvTitle.text = meal.title
-                binding.tvCategory.text = meal.category
-                binding.ivMeal.load(meal.image)
-            }
-        }
-
-
     }
 
 }

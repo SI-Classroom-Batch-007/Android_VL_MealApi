@@ -14,14 +14,31 @@ class MainViewModel: ViewModel() {
 
     init {
         getRandomMeal()
+        getCategories()
     }
 
     val randomMeal = repository.randomMeal
+    val categories = repository.categories
+    val mealsByCategory = repository.mealsByCategory
 
     fun getRandomMeal() {
         viewModelScope.launch {
             repository.getRandomMeal()
         }
     }
+
+    fun getMealsByCategory(category: String) {
+        viewModelScope.launch {
+            repository.getMealsByCategory(category)
+        }
+    }
+
+    private fun getCategories() {
+        viewModelScope.launch {
+            repository.getCategories()
+        }
+    }
+
+
 
 }
