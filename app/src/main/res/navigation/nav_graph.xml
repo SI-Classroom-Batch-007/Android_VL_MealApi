@@ -15,4 +15,8 @@
         android:id="@+id/mealsByCategoryFragment"
         android:name="com.syntax_institut.syntaxkantine.ui.MealsByCategoryFragment"
         android:label="MealsByCategoryFragment" />
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.syntax_institut.syntaxkantine.ui.FavouritesFragment"
+        android:label="FavouritesFragment" />
 </navigation>

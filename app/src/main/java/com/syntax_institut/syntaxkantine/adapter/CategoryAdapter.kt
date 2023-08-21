@@ -8,7 +8,7 @@ import coil.load
 import com.syntax_institut.syntaxkantine.MainViewModel
 import com.syntax_institut.syntaxkantine.R
 import com.syntax_institut.syntaxkantine.databinding.CategoryItemBinding
-import com.syntax_institut.syntaxkantine.remote.model.Category
+import com.syntax_institut.syntaxkantine.model.Category
 
 class CategoryAdapter(
     private val dataSet: List<Category>,

@@ -4,13 +4,13 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.syntax_institut.syntaxkantine.local.MealDatabase
 import com.syntax_institut.syntaxkantine.remote.MealApi
-import com.syntax_institut.syntaxkantine.remote.Repository
 import kotlinx.coroutines.launch
 
-class MainViewModel: ViewModel() {
+class MainViewModel(application: Application): AndroidViewModel(application) {
 
-    private val repository = Repository(MealApi)
+    private val repository = Repository(MealApi, MealDatabase.getDatabase(application))
 
     init {
         getRandomMeal()
@@ -20,6 +20,7 @@ class MainViewModel: ViewModel() {
     val randomMeal = repository.randomMeal
     val categories = repository.categories
     val mealsByCategory = repository.mealsByCategory
+    val favouriteMeals = repository.favouriteMeals
 
     fun getRandomMeal() {
         viewModelScope.launch {
@@ -33,11 +34,25 @@ class MainViewModel: ViewModel() {
         }
     }
 
+    fun saveCurrentMeal() {
+        viewModelScope.launch {
+            repository.insertCurrentMeal()
+        }
+    }
+
+    fun loadAllMeals() {
+        viewModelScope.launch {
+            repository.loadAllMeals()
+        }
+    }
+
     private fun getCategories() {
         viewModelScope.launch {
             repository.getCategories()
         }
     }
+
+
 
 
 

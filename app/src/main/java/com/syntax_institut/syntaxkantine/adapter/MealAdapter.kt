@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.syntax_institut.syntaxkantine.databinding.MealItemBinding
-import com.syntax_institut.syntaxkantine.remote.model.Meal
+import com.syntax_institut.syntaxkantine.model.Meal
 
-class MealsByCategoryAdapter(
+class MealAdapter(
     private val dataSet: List<Meal>
-): RecyclerView.Adapter<MealsByCategoryAdapter.MealsByCategoryViewHolder>() {
+): RecyclerView.Adapter<MealAdapter.MealsByCategoryViewHolder>() {
 
     class MealsByCategoryViewHolder(val binding: MealItemBinding): RecyclerView.ViewHolder(binding.root)
 

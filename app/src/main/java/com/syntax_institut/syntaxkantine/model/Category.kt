@@ -1,4 +1,4 @@
-package com.syntax_institut.syntaxkantine.remote.model
+package com.syntax_institut.syntaxkantine.model
 
 import com.squareup.moshi.Json
 

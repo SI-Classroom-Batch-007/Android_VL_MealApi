@@ -33,6 +33,10 @@ class RandomMealFragment: Fragment() {
             viewModel.getRandomMeal()
         }
 
+        binding.btSave.setOnClickListener {
+            viewModel.saveCurrentMeal()
+        }
+
         viewModel.randomMeal.observe(viewLifecycleOwner) { meal ->
             if (meal != null) {
                 binding.tvTitle.text = meal.title

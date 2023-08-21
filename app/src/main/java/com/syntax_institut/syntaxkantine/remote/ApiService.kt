@@ -2,8 +2,8 @@ package com.syntax_institut.syntaxkantine.remote
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.syntax_institut.syntaxkantine.remote.model.CategoryResult
-import com.syntax_institut.syntaxkantine.remote.model.MealResult
+import com.syntax_institut.syntaxkantine.model.CategoryResult
+import com.syntax_institut.syntaxkantine.model.MealResult
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET

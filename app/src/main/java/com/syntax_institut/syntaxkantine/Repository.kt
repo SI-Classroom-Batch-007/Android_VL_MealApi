@@ -1,13 +1,15 @@
-package com.syntax_institut.syntaxkantine.remote
+package com.syntax_institut.syntaxkantine
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.syntax_institut.syntaxkantine.remote.model.Category
-import com.syntax_institut.syntaxkantine.remote.model.Meal
+import com.syntax_institut.syntaxkantine.local.MealDatabase
+import com.syntax_institut.syntaxkantine.model.Category
+import com.syntax_institut.syntaxkantine.model.Meal
+import com.syntax_institut.syntaxkantine.remote.MealApi
 import java.lang.Exception
 
-class Repository(private val api: MealApi) {
+class Repository(private val api: MealApi, private val database: MealDatabase) {
 
     private var _randomMeal = MutableLiveData<Meal>()
     val randomMeal: LiveData<Meal>
@@ -21,9 +23,13 @@ class Repository(private val api: MealApi) {
     val mealsByCategory: LiveData<List<Meal>>
         get() = _mealsByCategory
 
+    private var _favouriteMeals = MutableLiveData<List<Meal>>()
+    val favouriteMeals: LiveData<List<Meal>>
+        get() = _favouriteMeals
+
     suspend fun getRandomMeal() {
         try {
-            val result = api.retrofitService.getRandomMeal()
+            val result = MealApi.retrofitService.getRandomMeal()
             val meal = result.meals.first()
             _randomMeal.value = meal
         } catch (e: Exception) {
@@ -33,7 +39,7 @@ class Repository(private val api: MealApi) {
 
     suspend fun getCategories() {
         try {
-            val result = api.retrofitService.getCategories()
+            val result = MealApi.retrofitService.getCategories()
             val cats = result.categories
             _categories.value = filterCategories(cats)
         } catch (e: Exception) {
@@ -43,7 +49,7 @@ class Repository(private val api: MealApi) {
 
     suspend fun getMealsByCategory(category: String) {
         try {
-            val result = api.retrofitService.getMealsByCategory(category)
+            val result = MealApi.retrofitService.getMealsByCategory(category)
             _mealsByCategory.value = result.meals
         } catch (e: Exception) {
             Log.e("ERROR", "${e.message}")
@@ -58,6 +64,23 @@ class Repository(private val api: MealApi) {
             }
         }
         return returnCats
+    }
+
+    suspend fun insertCurrentMeal() {
+        try {
+            database.mealDao.insertMeal(_randomMeal.value!!)
+        } catch (e: Exception) {
+            Log.e("ERROR", "${e.message}")
+        }
+    }
+
+    suspend fun loadAllMeals() {
+        try {
+            val allMeals = database.mealDao.getAllMeals()
+            _favouriteMeals.value = allMeals
+        } catch (e: Exception) {
+            Log.e("ERROR", "${e.message}")
+        }
     }
 
 }

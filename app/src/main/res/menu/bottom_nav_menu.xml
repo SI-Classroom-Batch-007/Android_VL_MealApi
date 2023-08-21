@@ -11,4 +11,9 @@
         android:icon="@drawable/baseline_category_24"
         android:title="Category" />
 
+    <item
+        android:id="@+id/favouritesFragment"
+        android:icon="@drawable/baseline_star_24"
+        android:title="Favourites" />
+
 </menu>
