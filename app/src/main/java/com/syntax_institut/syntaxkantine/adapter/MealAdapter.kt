@@ -5,25 +5,27 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.RoundedCornersTransformation
 import com.syntax_institut.syntaxkantine.MainViewModel
 import com.syntax_institut.syntaxkantine.databinding.MealItemBinding
 import com.syntax_institut.syntaxkantine.model.Meal
 
 class MealAdapter(
     private val viewModel: MainViewModel
-): RecyclerView.Adapter<MealAdapter.MealsByCategoryViewHolder>() {
+) : RecyclerView.Adapter<MealAdapter.MealsByCategoryViewHolder>() {
 
     private var dataSet: List<Meal> = listOf()
 
-    class MealsByCategoryViewHolder(val binding: MealItemBinding): RecyclerView.ViewHolder(binding.root)
+    class MealsByCategoryViewHolder(val binding: MealItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     @SuppressLint("NotifyDataSetChanged")
-    fun replaceDataSet(dataSet: List<Meal>){
+    fun replaceDataSet(dataSet: List<Meal>) {
         this.dataSet = dataSet
         notifyDataSetChanged()
     }
 
-    fun removeMeal(position: Int){
+    fun removeMeal(position: Int) {
         viewModel.deleteMeal(dataSet[position])
         notifyItemRemoved(position)
     }
@@ -40,7 +42,9 @@ class MealAdapter(
     override fun onBindViewHolder(holder: MealsByCategoryViewHolder, position: Int) {
         val item = dataSet[position]
         holder.binding.tvMealTitle.text = item.title
-        holder.binding.ivMealByCat.load(item.image)
+        holder.binding.ivMealByCat.load(item.image){
+            transformations(RoundedCornersTransformation(50f))
+        }
     }
 
 }

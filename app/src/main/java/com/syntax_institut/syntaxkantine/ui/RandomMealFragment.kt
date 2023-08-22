@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import coil.load
+import coil.transform.RoundedCornersTransformation
 import com.syntax_institut.syntaxkantine.MainViewModel
 import com.syntax_institut.syntaxkantine.databinding.RandomMealFragmentBinding
 
@@ -41,7 +42,9 @@ class RandomMealFragment: Fragment() {
             if (meal != null) {
                 binding.tvTitle.text = meal.title
                 binding.tvCategory.text = meal.category
-                binding.ivMeal.load(meal.image)
+                binding.ivMeal.load(meal.image){
+                    transformations(RoundedCornersTransformation(50f))
+                }
             }
         }
     }
