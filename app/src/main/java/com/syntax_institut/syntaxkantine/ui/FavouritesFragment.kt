@@ -10,8 +10,9 @@ import androidx.fragment.app.activityViewModels
 import com.syntax_institut.syntaxkantine.MainViewModel
 import com.syntax_institut.syntaxkantine.adapter.MealAdapter
 import com.syntax_institut.syntaxkantine.databinding.FavouritesFragmentBinding
+import com.syntax_institut.syntaxkantine.helper.MealTouchHelper
 
-class FavouritesFragment: Fragment() {
+class FavouritesFragment : Fragment() {
 
     private lateinit var binding: FavouritesFragmentBinding
     private val viewModel: MainViewModel by activityViewModels()
@@ -23,15 +24,22 @@ class FavouritesFragment: Fragment() {
     ): View {
         binding = FavouritesFragmentBinding.inflate(layoutInflater)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        viewModel.loadAllMeals()
+//        viewModel.loadAllMeals()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val adapter = MealAdapter(viewModel)
+        binding.rvFavourites.adapter = adapter
+
+        MealTouchHelper { position ->
+            adapter.removeMeal(position)
+        }.attachToRecyclerView(binding.rvFavourites)
+
         viewModel.favouriteMeals.observe(viewLifecycleOwner) { favourites ->
-            binding.rvFavourites.adapter = MealAdapter(favourites)
+            adapter.replaceDataSet(favourites)
         }
 
     }

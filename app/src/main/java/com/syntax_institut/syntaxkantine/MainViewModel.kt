@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.syntax_institut.syntaxkantine.local.MealDatabase
+import com.syntax_institut.syntaxkantine.model.Meal
 import com.syntax_institut.syntaxkantine.remote.MealApi
 import kotlinx.coroutines.launch
 
@@ -40,15 +41,21 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun loadAllMeals() {
-        viewModelScope.launch {
-            repository.loadAllMeals()
-        }
-    }
+//    fun loadAllMeals() {
+//        viewModelScope.launch {
+//            repository.loadAllMeals()
+//        }
+//    }
 
     private fun getCategories() {
         viewModelScope.launch {
             repository.getCategories()
+        }
+    }
+
+    fun deleteMeal(meal: Meal){
+        viewModelScope.launch {
+            repository.deleteMeal(meal)
         }
     }
 

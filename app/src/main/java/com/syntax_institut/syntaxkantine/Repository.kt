@@ -23,9 +23,9 @@ class Repository(private val api: MealApi, private val database: MealDatabase) {
     val mealsByCategory: LiveData<List<Meal>>
         get() = _mealsByCategory
 
-    private var _favouriteMeals = MutableLiveData<List<Meal>>()
-    val favouriteMeals: LiveData<List<Meal>>
-        get() = _favouriteMeals
+
+    val favouriteMeals = database.mealDao.getAllMealsLive()
+
 
     suspend fun getRandomMeal() {
         try {
@@ -74,13 +74,21 @@ class Repository(private val api: MealApi, private val database: MealDatabase) {
         }
     }
 
-    suspend fun loadAllMeals() {
+    suspend fun deleteMeal(meal: Meal){
         try {
-            val allMeals = database.mealDao.getAllMeals()
-            _favouriteMeals.value = allMeals
+            database.mealDao.deleteMeal(meal)
         } catch (e: Exception) {
             Log.e("ERROR", "${e.message}")
         }
     }
+
+//    suspend fun loadAllMeals() {
+//        try {
+//            val allMeals = database.mealDao.getAllMeals()
+//            _favouriteMeals.value = allMeals
+//        } catch (e: Exception) {
+//            Log.e("ERROR", "${e.message}")
+//        }
+//    }
 
 }

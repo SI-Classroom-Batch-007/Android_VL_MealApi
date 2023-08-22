@@ -10,7 +10,7 @@ import com.syntax_institut.syntaxkantine.MainViewModel
 import com.syntax_institut.syntaxkantine.adapter.MealAdapter
 import com.syntax_institut.syntaxkantine.databinding.MealsByCategoryFragmentBinding
 
-class MealsByCategoryFragment: Fragment() {
+class MealsByCategoryFragment : Fragment() {
 
     private lateinit var binding: MealsByCategoryFragmentBinding
     private val viewModel: MainViewModel by activityViewModels()
@@ -27,8 +27,11 @@ class MealsByCategoryFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val adapter = MealAdapter(viewModel)
+        binding.rvMealsByCat.adapter = adapter
+
         viewModel.mealsByCategory.observe(viewLifecycleOwner) { mealsByCat ->
-            binding.rvMealsByCat.adapter = MealAdapter(mealsByCat)
+            adapter.replaceDataSet(mealsByCat)
         }
     }
 
